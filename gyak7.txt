@@ -1,0 +1,46 @@
+/*1. Készítsünk nézetet VSZOBA néven, amely megjeleníti a szobák adatai mellett a megfelelő szálláshely nevét, helyét és a csillagok számát is!
+
+Az oszlopoknak nem szükséges külön nevet adni!
+Teszteljük is a nézetet, pl: SELECT * FROM UJAENB_VSZOBA*/
+CREATE or alter VIEW VSZOBA
+AS 
+select sz.*,
+		szh.SZALLAS_NEV,
+        szh.HELY,#
+        szh.CSILLAGOK_SZAMA
+from Szoba sz join Szallashely szh on sz.SZALLAS_FK = szh.SZALLAS_ID
+
+SELECT * from VSZOBA
+
+/*2 Készítsen tárolt eljárást SPUgyfelFoglalasok, amely a paraméterként megkapott ügyfél azonosítóhoz tartozó foglalások adatait listázza!
+Teszteljük a tárolt eljárás működését, pl: EXEC UJAENB_SPUgyfelFoglalasok 'laszlo2'
+*/
+
+create or alter PROC SPUgyfelfoglalasok
+@ugyfel nvarchar(100)
+as
+begin
+SELECT *
+from Foglalas
+where ugyfel_fk = @ugyfel
+END
+
+exec SPUgyfelfoglalasok 'laszlo2'
+
+/*
+3. Készítsen skalár értékű függvényt UDFFerohely néven, amely visszaadja, hogy a paraméterként megkapott foglalás azonosítóhoz hány férőhelyes szoba tartozik!
+a. Teszteljük a függvény működését!
+*/
+CREATE or ALTER FUNCTION UDFFerohely
+(
+	@fazon int
+)
+ RETURNS int 
+ AS
+ BEGIN
+ 	DECLARE @ferohely int 
+    SELECT @ferohely = sz.FEROHELY
+    FROM Foglalas f join Szoba sz on f.SZOBA_FK = sz.SZOBA_ID
+    where f.FOGLALAS_PK = @fazon
+    RETURN @ferohely
+ END

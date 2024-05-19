@@ -1,0 +1,71 @@
+1.feladat:
+db.collection.find({},
+{
+  "user_id": 1,
+  "firstName": 1,
+  "lastName": 1,
+  "_id": 0
+})
+
+2. feladat:
+db.collection.find({
+  "firstName": "Grace"
+},
+{
+  "email": 1,
+  "password": 1,
+  "_id": 0
+})
+
+3. feladat:
+{class_id: 339, student_id: {$lt: 100}}
+
+4. feladat:
+Filter: {likes_count: {$gt: 2}}
+Projekt:{ingredients: 0, rating: 0}
+Sort:{cook_time: -1}
+
+5. feladat
+db.receptek1.find({"title": {$regex: /Tacos/}},{}).pretty()
+
+6. feladat:
+db.receptek1.aggregate([{$group:{_id:"$type", total: {$sum: "$cook_time"}}}])
+
+7. feladat:
+db.receptek1.find({$and: [{servings: 4}, {tags: {$in: ["quick","easy"]}}]}, {}).count()
+
+8. feladat:
+MATCH(p:Person)
+WHERE p.born = 1964 OR p.born = 1965
+RETURN p.name, p.born
+
+9. feladat:
+match(m:Movie)
+where m.title starts with 'A'
+return m.title, m.released
+
+10. feladat:
+match(m:Movie)
+where m.title starts with 'A'
+return m.title, m.released
+
+11. feladat:
+match(p:Person)-[:PRODUCED]->(m:Movie)
+where p.name = 'Joel Silver'
+return m.title
+
+12. feladat:
+match(p:Person)-[:DIRECTED]->(m:Movie)
+with p.name as `Name`, count(*) as `db`
+where db > 1 
+return Name
+
+13. feladat:
+match (p:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p:Person)
+return p
+
+14. feladat:
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+return m.title, count(*) 
+order by count(*) desc, m.title
+limit 10

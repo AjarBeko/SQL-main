@@ -1,0 +1,61 @@
+> set ev 2024
+"OK"
+
+> set honap 05
+"OK"
+
+> set nap 08
+"OK"
+
+> expire ev 30
+(integer) 1
+
+> expire honap 30
+(integer) 1
+
+> expire nap 30
+(integer) 1
+
+> get ev
+(nil)
+
+> hset auto rendszam abcd123 tipus audi evjarat 2024
+(integer) 3
+
+> rpush tantargyak adatbazisak matematika
+(integer) 2
+
+> lrange tantargyak 0 -1
+1) "adatbazisak"
+2) "matematika"
+
+> lrange tantargyak 0 -1
+1) "adatbazisok"
+2) "matematika"
+
+
+> sadd napok hetfo kedd szerda csutortok
+(integer) 4
+
+> sadd munkanapok hetfo szerda
+(integer) 2
+
+> sunion napok munkanapok
+1) "hetfo"
+2) "kedd"
+3) "szerda"
+4) "csutortok"
+
+> zadd zh 25 juci 12 laci 85 maci
+(integer) 3
+
+> zrange zh 0 -1 witch scores
+"ERR syntax error"
+
+> zrange zh 0 -1 withscores
+1) "laci"
+2) "12"
+3) "juci"
+4) "25"
+5) "maci"
+6) "85"
